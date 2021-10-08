@@ -21,11 +21,12 @@ currently an alphabet of {A, T, C, G} is supported (uppercase only):
 
 .. code-block:: python
 
+    import numpy as np
     from kmerhash import kmerhasher, hashes2seq
 
     seq = "TTCGGACCGGATT"
     k = 11
-    a = kmerhasher(seq, k)
+    a = kmerhasher(seq, k)  # numpy array returned
 
     print(a)
     # [4039016 3573155 1709711 2644540]

@@ -30,10 +30,10 @@ setup(
     version='0.3',
     python_requires='>=3.7',
     install_requires=[  # runtime requires
-            'cython',
+            'cython', 'numpy'
         ],
     setup_requires=[
-            'cython',
+            'cython', 'numpy'
         ],
     packages=["kmerhash", "kmerhash.tests"],
     ext_modules=cythonize(ext_modules),
