@@ -1,0 +1,1 @@
+from kmerhash.hasher import *
