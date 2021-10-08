@@ -3,7 +3,9 @@ import numpy as np
 import random
 import time
 import os
-import matplotlib.pyplot as plt
+import datetime
+import sys
+
 from kmerhash import kmerhasher, same_as_str_split, char_to_nibble_array, hashes2seq
 
 random.seed(0)
@@ -23,6 +25,7 @@ assert basemap_2_int[ord("G")] == 4
 assert basemap_2_int[ord("T")] == 8
 assert basemap_2_int[ord("N")] == 14
 
+import resource
 
 basemap_2_int = {k: i for i, k in enumerate(basemap)}
 
@@ -42,42 +45,52 @@ assert all(i == j for i, j in zip(char_to_nibble_array([basemap_2_int[i] for i i
 
 
 def test():
-    for k in range(1, 32):
-        seq_lengths = range(k, 500)
-        times = []
-        times_normal = []
-        for sl in seq_lengths:
-            avg = []
-            avg_n = []
-            inputseq = "".join([random.choice("ATCG") for i in range(sl)])
-            for n in range(1):
+    k = 21
+    seq_lengths = np.array([k, 100, 1000, 10000, 100000])
+    times = []
+    times_normal = []
+    for sl in seq_lengths:
+        avg = []
+        avg_n = []
+        inputseq = "".join([random.choice("ATCG") for i in range(sl)])
+        for n in range(1):
 
-                t0 = time.time()
-                kmer_hashes = [hash(inputseq[i:i+k]) for i in range(len(inputseq) - k + 1)]
-                avg_n.append(time.time() - t0)
+            t0 = time.time()
+            kmer_hashes = [hash(inputseq[i:i+k]) for i in range(len(inputseq) - k + 1)]
+            avg_n.append(time.time() - t0)
 
-                t0 = time.time()
-                inputseq = "TCGCG"
-                k = 5
-                # print(inputseq)
-                # print([inputseq[i:i+k] for i in range(len(inputseq) - k + 1)])
-                extracted_hashes = kmerhasher(inputseq, kmer_length=k)
-                avg.append(time.time() - t0)
-                # print(k, sl)
+            t0 = time.time()
+            # inputseq = "TCTTGCCGG"
+            # k = 5
+            # print(inputseq, k, sl)
+            # print([inputseq[i:i+k] for i in range(len(inputseq) - k + 1)])
+            extracted_hashes = kmerhasher(inputseq, kmer_length=k)
+            avg.append(time.time() - t0)
+            # print(k, sl)
 
-                same_as_str_split(extracted_hashes, inputseq, k)
+            same_as_str_split(extracted_hashes, inputseq, k)
+            # quit()
 
-            print("Mean speedup", np.mean(avg_n) / np.mean(avg))
-            times.append(np.mean(avg))
-            times_normal.append(np.mean(avg_n))
-    #
-    # plt.figure()
-    # plt.plot(seq_lengths, times)
-    # plt.plot(seq_lengths, times_normal)
-    # plt.yscale("log")
-    # plt.xscale("log")
-    # plt.show()
+        # print("Mean speedup", np.mean(avg_n) / np.mean(avg))
+        times.append(np.mean(avg))
+        times_normal.append(np.mean(avg_n))
+
+    print("time normal", times_normal)
+    print((seq_lengths / times_normal) / 1e6)
+
+    print("time kmerhash", times)
+    print((seq_lengths / times) / 1e6)
 
 
 test()
 
+
+def demo():
+
+    seq = "TTCGGACCGGATT"
+    k = 11
+    a = kmerhasher(seq, k)
+    print(a)
+    print(hashes2seq(a, k))
+
+# demo()

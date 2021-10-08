@@ -1,14 +1,10 @@
-#distutils: language = c
 #cython: language_level=3, boundscheck=False, c_string_encoding=utf8, infer_types=True, wraparound=False
 import numpy as np
 from libc.stdint cimport uint64_t, uint8_t
-import os
 import array
 
 __all__ = ["kmerhasher", "char_to_nibble_array", "hash2seq", "same_as_str_split",
            "seq_2_nibbles", "hashes2seq"]
-
-pth = os.path.dirname(os.path.realpath(__file__))
 
 
 basemap = np.array(['.', 'A', 'C', '.', 'G', '.', '.', '.', 'T', '.', '.', '.', '.', '.', 'N'])
@@ -120,7 +116,6 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
     while i < seq_len:
 
         base1 = basemap_2_int[seq_b[i]]
-
         v = 0
         v = v << 4 | base1
         i += 1
@@ -129,7 +124,6 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
             break
 
         base2 = basemap_2_int[seq_b[i]]
-
         i += 1
         v = v << 4 | base2
         t[block] = v
@@ -161,18 +155,16 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
     cdef bint is_odd = kmer_length % 2 != 0
     # if odd length kmer push last nibble
     if is_odd:
-
         first_2bit = nib[(t[i] >> 4) & 15]
         h = h << 2 | first_2bit
-        bases_remaining -= 1
+
 
     a[0] = h
 
     if bases_remaining == 0:
         return a
-    # process the rest of the sequence
-    len_t = len(t)
 
+    len_t = len(t)
     while i < len_t:
 
         v = t[i]
@@ -186,9 +178,11 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
         second_2bit = nib[v & 15]
 
         if bases_remaining == 1:
-            h = (h << 2 | second_2bit) & mask
+            if is_odd:
+                h = (h << 2 | second_2bit) & mask
+            else:
+                h = (h << 2 | first_2bit) & mask
             a[index] = h
-            # print("last block", bin(h))
             break
 
         # break this into three steps:
@@ -197,13 +191,12 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
         # h & mask  drops any bits outside of the kmer length, prevents overflow of the int
 
         if is_odd:
-            if i == 1:
-
-                # just add one bit
+            if i == end:  # bases remaining > 0
+                # just add one bit first bit was already shifted
                 h = (h << 2 | second_2bit) & mask
                 a[index] = h
                 index += 1
-                bases_remaining -=1
+                bases_remaining -= 1
                 i += 1
 
             else:
@@ -216,7 +209,6 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
                 index += 1
                 bases_remaining -=2
                 i += 1
-
 
         else:
             h = (h << 2 | first_2bit) & mask
