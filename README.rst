@@ -16,7 +16,7 @@ To install::
 Overview
 --------
 
-kmers are packed into an int64. The maximum kmer size is 32 bp and
+kmers are packed into an int64 using a rolling hash. The maximum kmer size is 32 bp and
 currently an alphabet of {A, T, C, G} is supported (uppercase only)
 
 .. code-block:: python
