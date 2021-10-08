@@ -57,8 +57,8 @@ kmerhash was compared to a pure python implementation with k=21
    :header-rows: 1
 
    * - Sequence length
-     - Throughout python (Mbp / s)
-     - Throughout kmerhash (Mbp / s)
+     - Throughput python (Mbp / s)
+     - Throughput kmerhash (Mbp / s)
    * - 21
      - 9.8
      - 1.1
