@@ -84,3 +84,8 @@ Limitations
 - Only {A, T, C, G} bases are supported
 - Uppercase bases only
 - N bases will be intepreted as A's
+
+
+Acknowledgements
+----------------
+Alexander Kearsey https://github.com/kearseya
