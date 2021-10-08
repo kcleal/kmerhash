@@ -42,7 +42,7 @@ kmer integers can be converted back to string format:
 Benchmarks
 ----------
 
-kmerhash was compared to a pure python implementation with k=21
+kmerhash was compared to a pure python implementation with k=21:
 
 .. code-block:: python
 
