@@ -7,7 +7,11 @@ Fast generation of hashed kmers from a python string
 Installation
 ------------
 
-To install::
+To install, wheels are available for python >= 3.7 < 3.10 on linux/MacOSX::
+
+    pip install kmerhash
+
+Or build from source::
 
     git clone https://github.com/kcleal/kmerhash
     cd kmerhash
