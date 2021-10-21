@@ -1,5 +1,6 @@
 #cython: language_level=3, boundscheck=False, c_string_encoding=utf8, infer_types=True, wraparound=False
 import numpy as np
+cimport numpy as np
 from libc.stdint cimport uint64_t, uint8_t
 import array
 
@@ -94,6 +95,7 @@ cdef uint8_t[16] nib = [0, 0, 1, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0]
 
 
 cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
+# def kmerhasher(seq, kmer_length):
 
     cdef int seq_len = len(seq)
     if seq_len < kmer_length:
@@ -129,7 +131,14 @@ cpdef np.ndarray[np.uint64_t, ndim=1] kmerhasher(str seq, int kmer_length):
         t[block] = v
         block += 1
 
-    cdef np.ndarray[np.uint64_t, ndim=1] a = np.zeros(len(t) * 2 - kmer_length + 1, dtype="uint64")
+    cdef np.ndarray[np.uint64_t, ndim=1] a
+
+    if seq_len % 2 == 0:
+        a = np.zeros(len(t) * 2 - kmer_length + 1, dtype="uint64")
+    else:
+        a = np.zeros(len(t) * 2 - kmer_length, dtype="uint64")
+
+    # cdef np.ndarray[np.uint64_t, ndim=1] a = np.zeros(len(t) * 2 - kmer_length + 1, dtype="uint64")
     cdef int bases_remaining = seq_len
     cdef uint64_t h = 0
     # https://stackoverflow.com/questions/15816927/bit-manipulation-clearing-range-of-bits

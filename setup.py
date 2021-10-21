@@ -10,8 +10,8 @@ extras = ["-Wno-sign-compare", "-Wno-unused-function", "-Wno-unused-result", '-W
 ext_modules = list()
 
 
-ext_modules.append(Extension(f"kmerhash.hasher",
-                             [f"kmerhash/hasher.pyx"],
+ext_modules.append(Extension("kmerhash.hasher",
+                             ["kmerhash/hasher.pyx"],
                              include_dirs=[numpy.get_include()],
                              extra_compile_args=extras,
                              define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
@@ -27,7 +27,7 @@ setup(
     url="https://github.com/kcleal/dysgu",
     description="Generate hash values from a sequence corresponding to kmers in the sequence",
     license="MIT",
-    version='0.3',
+    version='0.4',
     python_requires='>=3.7',
     install_requires=[  # runtime requires
             'cython', 'numpy'
@@ -35,9 +35,9 @@ setup(
     setup_requires=[
             'cython', 'numpy'
         ],
-    packages=["kmerhash", "kmerhash.tests"],
+    packages=["kmerhash"],  # "kmerhash.tests"
     ext_modules=cythonize(ext_modules),
     include_package_data=True,
-    zip_safe=True,
+    zip_safe=False,
 
 )

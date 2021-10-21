@@ -29,7 +29,7 @@ currently an alphabet of {A, T, C, G} is supported (uppercase only):
     a = kmerhasher(seq, k)  # numpy array returned
 
     print(a)
-    # [4039016 3573155 1709711 2644540]
+    # [4039016 3573155 1709711]
 
 
 kmer integers can be converted back to string format:
@@ -37,7 +37,17 @@ kmer integers can be converted back to string format:
 .. code-block:: python
 
     print(hashes2seq(a, k))
-    # ['TTCGGACCGGA', 'TCGGACCGGAT', 'CGGACCGGATT', 'GGACCGGATTA']
+    # ['TTCGGACCGGA', 'TCGGACCGGAT', 'CGGACCGGATT']
+
+
+kmers can be counted efficiently using e.g. `Counter`:
+
+.. code-block:: python
+
+    from collections import Counter
+
+    counter = Counter(a)
+
 
 
 Benchmarks
