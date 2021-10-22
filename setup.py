@@ -24,7 +24,7 @@ setup(
     name="kmerhash",
     author="Kez Cleal",
     author_email="clealk@cardiff.ac.uk",
-    url="https://github.com/kcleal/dysgu",
+    url="https://github.com/kcleal/kmerhash",
     description="Generate hash values from a sequence corresponding to kmers in the sequence",
     license="MIT",
     version='0.4',
