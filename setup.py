@@ -12,7 +12,7 @@ ext_modules = list()
 
 ext_modules.append(Extension("kmerhash.hasher",
                              ["kmerhash/hasher.pyx"],
-                             include_dirs=[numpy.get_include()],
+                             include_dirs=[numpy.get_include(), '.'],
                              extra_compile_args=extras,
                              define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
                              language="c",
@@ -27,7 +27,7 @@ setup(
     url="https://github.com/kcleal/kmerhash",
     description="Generate hash values from a sequence corresponding to kmers in the sequence",
     license="MIT",
-    version='0.4.1',
+    version='0.4.2',
     python_requires='>=3.7',
     install_requires=[  # runtime requires
             'cython', 'numpy'
