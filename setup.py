@@ -27,7 +27,7 @@ setup(
     url="https://github.com/kcleal/kmerhash",
     description="Generate hash values from a sequence corresponding to kmers in the sequence",
     license="MIT",
-    version='0.4.2',
+    version='0.4.3',
     python_requires='>=3.7',
     install_requires=[  # runtime requires
             'cython', 'numpy'

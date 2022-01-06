@@ -26,8 +26,6 @@ currently an alphabet of {A, T, C, G} is supported (uppercase only):
 .. code-block:: python
 
     import numpy as np
-    import pyximport
-    pyximport.install()
     from kmerhash import kmerhasher, hashes2seq
 
     seq = "TTCGGACCGGATT"
