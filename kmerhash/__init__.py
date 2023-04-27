@@ -1,4 +1,2 @@
 
-from kmerhash import *
-
-print(dir())
+from kmerhash.hasher import *

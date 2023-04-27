@@ -27,17 +27,16 @@ setup(
     url="https://github.com/kcleal/kmerhash",
     description="Generate hash values from a sequence corresponding to kmers in the sequence",
     license="MIT",
-    version='0.4.3',
+    version='0.4.4',
     python_requires='>=3.7',
-    install_requires=[  # runtime requires
+    install_requires=[
             'cython', 'numpy'
         ],
     setup_requires=[
             'cython', 'numpy'
         ],
-    packages=["kmerhash"],  # "kmerhash.tests"
+    packages=["kmerhash"],
     ext_modules=cythonize(ext_modules),
     include_package_data=True,
     zip_safe=False,
-
 )
